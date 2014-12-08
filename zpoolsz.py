@@ -92,17 +92,21 @@ def get_zpool_stats(poolname):
             zpool_use = get_size(words[1])
             zpool_free = get_size(words[2])
             poolsection = True
-        elif words[0] == "logs":
+            continue
+
+        if words[0][0] == '-':
             poolsection = False
-            zilsection = True
-            continue
-        elif words[0] == "cache":
             zilsection = False
-            l2section = True
-            continue
-        elif words[0][0] == '-':
             l2section = False
             continue
+
+        if poolsection:
+            if words[0] == "logs":
+                zilsection = True
+                continue
+            elif words[0] == "cache":
+                l2section = True
+                continue
             
         if zilsection and words[0] == "mirror":
             zil_use = get_size(words[1])
@@ -111,7 +115,7 @@ def get_zpool_stats(poolname):
             l2_use += get_size(words[1])
             l2_free += get_size(words[2])
             
-    return (zpool_use, zpool_free), (zil_uae, zil_free), (l2_use, l2_free)
+    return (zpool_use, zpool_free), (zil_use, zil_free), (l2_use, l2_free)
     
 # ======================================================================
 def main():
