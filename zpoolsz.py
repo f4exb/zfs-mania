@@ -51,6 +51,8 @@ def get_multi(multiplier):
         return 1024*1024
     elif multiplier == "G":
         return 1024*1024*1024
+    elif multiplier == "T":
+        return 1024*1024*1024*1024
     else:
         return 1
     
